@@ -15,3 +15,4 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 print("Hello, my name is Nathan, I like eggs.")
+print("I also like cats.")
