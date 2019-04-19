@@ -39,4 +39,4 @@ nate.talk()
 nate.num = 25  # set instance var to 20
 nate.talk()
 
-print("The numbers printed are 12, 20, and 25 in that order")
+print("The numbers printed are 12, 20, and 25 in that order.")
