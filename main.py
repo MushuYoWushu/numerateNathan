@@ -20,5 +20,23 @@ print("Hello, my name is Nathan, I like eggs and am learning to read numbers.")
 print("I also like cats.")
 
 # Nathan needs to take number files as input and output via one of ten neurons what number he thinks it is
+# Here we define the neural net functions nate needs to read
 
-#testing testing 1 2 3
+
+class NateBrain:
+    num = 12
+
+    def talk(self):
+        print("I am talking, my num is ", self.num)
+
+# NateBrain ends here
+
+
+nate = NateBrain()
+nate.talk()
+NateBrain.num = 20  # Set class var instance to 20
+nate.talk()
+nate.num = 25  # set instance var to 20
+nate.talk()
+
+print("The numbers printed are 12, 20, and 25 in that order")
