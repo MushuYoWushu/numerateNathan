@@ -14,9 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import numpy as np
+# import numpy as np
 
 print("Hello, my name is Nathan, I like eggs and am learning to read numbers.")
 print("I also like cats.")
 
 # Nathan needs to take number files as input and output via one of ten neurons what number he thinks it is
+
+#testing
