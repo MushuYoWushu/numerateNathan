@@ -32,8 +32,9 @@ class NateBrain(object):
 
     def talk(self):
         print("I am NateBrain, my seed number is ", self.seed)
-        print("I am NateBrain, my number of inputs is ", self.input_num)
+        print("I am NateBrain, my number of input neurons is ", self.input_num)
         print("I am NateBrain, my number of hidden neurons is ", self.hidden_neurons)
+        print("I am NateBrain, my number of output neurons is ", self.hidden_neurons)
 
     def __init__(self):
         random.seed(self.seed)  # User can change the seed that a nate is made with
