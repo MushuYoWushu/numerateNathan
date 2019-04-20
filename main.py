@@ -14,8 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from numpy import random
-# exp, array, dot,
+from numpy import random, exp
+#  array, dot,
 
 print("Hello, my name is Nathan, I like eggs and am learning to read numbers.")
 print("I also like cats and talking about myself.")
@@ -41,6 +41,17 @@ class NateBrain(object):
         self.synapse1 = .1*random.random((self.input_num + 1, self.hidden_neurons)) - .05       # See 'Notes - Deriving the weights'
         self.synapse2 = .1*random.random((self.hidden_neurons + 1, self.output_neurons)) - .05  # and 'Notes - Array Size' for explanation
 
+    def sigmoid(self, x):  # We do not change the class contents so the IDE may suggest making static
+        return 1 / (1 + exp(-x))
+
+    def sigmoid_deriv(self, x):  # We do not change the class contents so the IDE may suggest making static
+        return x * (1-x)    # Note this is equivalent to pow((1 + exp(-x)), 2)
+
+    # NOTE the first element in the MNIST training set is the number label, i.e. if it is a 5, then the CSV is
+    # 5, 0, 0, 0, 0...., past that is the 28x28 image
+    # TODO figure out how to load 28x28 image into array
+    # TODO figure out how to load all images into array to create complete dataset
+
 # NateBrain ends here
 
 
@@ -65,4 +76,10 @@ print(nate.synapse2)
 #
 # Layer 1 = 784 inputs + 1 bias and n hidden layer neurons -> (input_num + 1, hidden_neurons)
 # Layer 2 = n hidden layer neurons + 1 bias and the number of outputs -> (hidden_neurons + 1, output_neurons)
-#
+
+# Sigmoid Functions
+# The sigmoid function normalizes the sum of weighted inputs into a value between 0 and 1
+# The sigmoid derivative measures the gradient of the curve leading to the optimum
+
+# MNIST Training Set
+# Each line is the label of the digit followed by the 28x28 (784) pixel image
