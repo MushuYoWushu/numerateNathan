@@ -14,7 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from numpy import random, exp
+from csv import reader
+from numpy import random, exp, fromstring
 #  array, dot,
 
 print("Hello, my name is Nathan, I like eggs and am learning to read numbers.")
@@ -47,20 +48,25 @@ class NateBrain(object):
     def sigmoid_deriv(self, x):  # We do not change the class contents so the IDE may suggest making static
         return x * (1-x)    # Note this is equivalent to pow((1 + exp(-x)), 2)
 
-    # NOTE the first element in the MNIST training set is the number label, i.e. if it is a 5, then the CSV is
-    # 5, 0, 0, 0, 0...., past that is the 28x28 image
-    # TODO figure out how to load 28x28 image into array
-    # TODO figure out how to load all images into array to create complete dataset
+    def train(self, csv_file_path):  # Trains based on passed data location
+        with open(csv_file_path) as imgs:
+             for number_img in imgs:  # Here we are going to process each image piece by piece
+                image = fromstring(number_img, dtype=int, sep=',')
+                number_label = image[0]  # This is the label of what the data in number_data represents
+                number_data = image[1:]  # This is the data that represents a handwritten number
 
 # NateBrain ends here
 
 
 # Testing Suite
+
+
 nate = NateBrain()
-print("Synapse 1 data")
-print(nate.synapse1)
-print("Synapse 2 data")
-print(nate.synapse2)
+nate.train("mnist_train.csv")
+# print("Synapse 1 data")
+# print(nate.synapse1)
+# print("Synapse 2 data")
+# print(nate.synapse2)
 
 # Notes
 
