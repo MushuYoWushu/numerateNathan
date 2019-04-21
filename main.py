@@ -15,7 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from csv import reader
-from numpy import random, exp, fromstring, dot, array, mean, arange, zeros_like
+from numpy import random, exp, fromstring, dot, array, mean, arange, zeros_like, insert
 
 
 print("Hello, my name is Nathan, I like eggs and am learning to read numbers.")
@@ -39,7 +39,7 @@ class NateBrain(object):
 
     def __init__(self):
         random.seed(self.seed)  # User can change the seed that a nate is made with
-        self.synapse1 = array(.1*random.random((self.input_num + 1, self.hidden_neurons + 1)) - .05)   # See 'Notes'
+        self.synapse1 = array(.1*random.random((self.input_num + 1, self.hidden_neurons)) - .05)   # See 'Notes'
         self.synapse2 = array(.1*random.random((self.hidden_neurons + 1, self.output_neurons)) - .05)  # for explanation
 
     def sigmoid(self, x):  # We do not change the class contents so the IDE may suggest making static
@@ -59,18 +59,23 @@ class NateBrain(object):
                 image = fromstring(number_img, dtype=int, sep=',')
                 output = self.label2output(image[0])  # image[0] is the data label, this is an array translation.
                 number_data = image  # bias neuron and image data
-                number_data[0] = 1  # set bias to 1
+                number_data[0] = 1  # set bias to 1, we already have an array of 785 so no sweat there
 
                 l0 = number_data  # this series of dots and sigmoids represent the transfer from start to end
-                l1 = self.sigmoid(dot(l0, self.synapse1))  # between neurons, through synapses
+                l1 = self.sigmoid(dot(l0, self.synapse1))  # between neurons, through synapse1
+                l1 = insert(l1, 0, 1)  # we need to add in the bias unit set to 1 at the beginning!
                 l2 = self.sigmoid(dot(l1, self.synapse2))
 
-                print("Synapse 1 shape: ", self.synapse1.shape, "Synapse 2 shape: ", self.synapse2.shape)
+
                 l2_err = output - l2
-                print("l2 err value is ", mean(abs(l2_err)))
+                # print("l2 err value is ", mean(abs(l2_err)))
 
                 l2_delta = self.sigmoid_deriv(l2) * l2_err  # this tells us the amount weight gotta change on l2
                 l1_err = dot(l2_delta, self.synapse1.T)  # backprop step that shows how much l1 contributed to error
+                print("Synapse 1 shape: ", self.synapse1.shape, "Synapse 2 shape: ", self.synapse2.shape)
+                print("Layer 0 shape: ", l0.shape, "Layer 1 shape: ", l1.shape, "Layer 2 shape: ", l2.shape)
+                print("Layer 1 err: ", l1_err)
+
                 l1_delta = self.sigmoid_deriv(l1) * l1_err  # this tells us the amount weight gotta change on l1
 
                 self.synapse2 += dot(l1.T, l2_delta)
