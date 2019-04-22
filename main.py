@@ -74,7 +74,7 @@ class NateBrain(object):
                 l1_err = dot(l2_delta, self.synapse1.T)  # backprop step that shows how much l1 contributed to error
                 print("Synapse 1 shape: ", self.synapse1.shape, "Synapse 2 shape: ", self.synapse2.shape)
                 print("Layer 0 shape: ", l0.shape, "Layer 1 shape: ", l1.shape, "Layer 2 shape: ", l2.shape)
-                print("Layer 1 err: ", l1_err)
+                print("Layer 1 err: ", l1_err.shape)
 
                 l1_delta = self.sigmoid_deriv(l1) * l1_err  # this tells us the amount weight gotta change on l1
 
