@@ -17,4 +17,4 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # numerateNathan
-An innumerate number reading toy AI. Currently building in numeracy.
+A questionably numerate number reading toy AI. Currently in testing.
