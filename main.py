@@ -14,12 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from csv import reader
 from numpy import random, exp, fromstring, dot, array, mean, arange, zeros_like, insert
+from time import time
 
 
-print("Hello, my name is Nathan, I like eggs and am learning to read numbers.")
-print("I also like cats and talking about myself.")
+print("\nHello, my name is Nathan, I like eggs and am learning to read numbers.")
+print("I also like cats and talking about myself.\n")
 
 # Nathan needs to take number files as input and output via one of ten neurons what number he thinks it is
 # Here we define the neural net functions nate needs to read
@@ -30,12 +30,14 @@ class NateBrain(object):
     input_num = 784
     hidden_neurons = 10
     output_neurons = 10
+    learning_rate = .1
 
     def talk(self):
-        print("I am NateBrain, my seed number is ", self.seed)
-        print("I am NateBrain, my number of input neurons is ", self.input_num)
-        print("I am NateBrain, my number of hidden neurons is ", self.hidden_neurons)
-        print("I am NateBrain, my number of output neurons is ", self.output_neurons)
+        print("I am NateBrain, my seed number is", self.seed)
+        print("I am NateBrain, my number of input neurons is", self.input_num)
+        print("I am NateBrain, my number of hidden neurons is", self.hidden_neurons)
+        print("I am NateBrain, my number of output neurons is", self.output_neurons)
+        print(f'I am NateBrain, my learning rate is {self.learning_rate}\n')
 
     def __init__(self):
         random.seed(self.seed)  # User can change the seed that a nate is made with
@@ -53,7 +55,7 @@ class NateBrain(object):
         output[num_label] = 1  # sets the entry of the corresponding digit to 1
         return output
 
-    def train(self, csv_file_path):  # Trains based on passed data location
+    def think(self, csv_file_path, learn=False):  # Trains based on passed data location
         with open(csv_file_path) as imgs:
             counter = 0  # iteration counter for error
             for number_img in imgs:  # Here we are going to process each image piece by piece
@@ -70,20 +72,92 @@ class NateBrain(object):
                 l2_err = output - l2
 
                 if (counter % 10000) == 0:  # Periodically output error average
-                    print("Mean Error: ", str(mean(abs(l2_err))))
+                    accuracy = 100. * (1 - mean(abs(l2_err)))
+                    print(f'Accuracy: {100. * (1 - mean(abs(l2_err))):5.2f} %')
 
                 l2_delta = self.sigmoid_deriv(l2) * l2_err  # this tells us the amount weight gotta change on l2
                 l1_err = dot(l2_delta, self.synapse2.T)  # backprop step that shows how much l1 contributed to error
                 l1_delta = self.sigmoid_deriv(l1) * l1_err  # this tells us the amount weight gotta change on l1
 
-                self.synapse2 += l2_delta
-                self.synapse1 += l1_delta[:1]  # The bias should only go in one direction -> cut out 0th element here
+                if learn:  # If we were instructed to learn from the data rather than just evaluate it
+                    self.train(l1_delta, l2_delta)
+
                 counter += 1  # Keep track of iteration number for error printing
+        imgs.close()  # Done with training examples
+        return counter, accuracy  # Let the caller know how many samples were trained on and final accuracy
+
+    def train(self, l1_delta, l2_delta):
+        self.synapse2 += self.learning_rate * l2_delta
+        self.synapse1 += self.learning_rate * l1_delta[:1]  # The bias goes in 1 direction -> cut out 0th element here
+
+    def think_epoch(self, csv_file_path, epoch_num, learn=False):
+        samples = 0
+        accuracy = 0
+
+        for count in range(0, epoch_num):
+            samples, accuracy = self.think(csv_file_path, learn)  # The number examined through epochs will always be the same
+
+        return samples, accuracy
+
+    def demo_network(self, epochs):  # Demo's the networks capabilities
+        self.talk()
+        start = time()
+        examples, accuracy = self.think_epoch("mnist_train.csv", epochs, learn=True)
+        end = time()
+        print(f'\nI studied a total of {examples} sample(s) in {end - start:2.0f} seconds through {epochs} epoch(s) with a(n) {accuracy:5.2f} % accuracy.')
+
+        print(f'\nI will now take the test set without learning.\n')
+        start = time()
+        examples, accuracy = self.think("mnist_test.csv")
+        end = time()
+        print(f'\nI examined a total of {examples} test sample(s) in{end - start:2.0f} seconds with a(n) {accuracy:5.2f} % accuracy.')
+
+    def hidden_neuron_test(self):  # Tests the effects of different numbers of hidden neurons with 50 epochs + logs
+        print("Beginning 20 hidden neuron test...\n")
+        self.hidden_neurons = 20
+        log = open("hidden_neuron_results_20.txt", "w")
+        log.write("Format is as follows {epoch_num, accuracy_train, accuracy_test}\n")
+        for epoch_num in range(1, 51):
+            sample_train, accuracy_train = self.think("mnist_train.csv", learn=True)
+            sample_test, accuracy_test = self.think("mnist_test.csv")
+            log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}')
+            print(f'Epoch {epoch_num} of 50 completed')
+        log.close()
+        print('...20 hidden neuron test complete.\n')
+
+        print("Beginning 50 hidden neuron test...\n")
+        self.hidden_neurons = 50
+        log = open("hidden_neuron_results_50.txt", "w")
+        log.write("Format is as follows {epoch_num, accuracy_train, accuracy_test}\n")
+        for epoch_num in range(1, 51):
+            sample_train, accuracy_train = self.think("mnist_train.csv", learn=True)
+            sample_test, accuracy_test = self.think("mnist_test.csv")
+            log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}')
+            print(f'Epoch {epoch_num} of 50 completed')
+        log.close()
+        print('...50 hidden neuron test complete.\n')
+
+        print("Beginning 100 hidden neuron test...\n")
+        self.hidden_neurons = 100
+        log = open("hidden_neuron_results_100.txt", "w")
+        log.write("Format is as follows {epoch_num, accuracy_train, accuracy_test}\n")
+        for epoch_num in range(1, 51):
+            sample_train, accuracy_train = self.think("mnist_train.csv", learn=True)
+            sample_test, accuracy_test = self.think("mnist_test.csv")
+            log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}')
+            print(f'Epoch {epoch_num} of 50 completed')
+        log.close()
+        print('...100 hidden neuron test complete.\n')
+
+        print('All tests successfully completed and results logged.')
+
+
 # NateBrain ends here
 
 
 nate = NateBrain()
-nate.train("mnist_train.csv")
+nate.hidden_neuron_test()
+
 
 # Notes
 
@@ -110,5 +184,3 @@ nate.train("mnist_train.csv")
 
 # Backpropagation Notes
 # Basically calculate the error starting at the back and working your way back through the network.
-#
-#

@@ -1,0 +1,2 @@
+Format is as follows {epoch_num, accuracy_train, accuracy_test}
+1, 86.62, 88.35
