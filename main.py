@@ -112,52 +112,68 @@ class NateBrain(object):
         end = time()
         print(f'\nI examined a total of {examples} test sample(s) in{end - start:2.0f} seconds with a(n) {accuracy:5.2f} % accuracy.')
 
-    def hidden_neuron_test(self):  # Tests the effects of different numbers of hidden neurons with 50 epochs + logs
-        print("Beginning 20 hidden neuron test...\n")
+    def hidden_neuron_test(self, neuron_num):  # Tests the effects of different numbers of hidden neurons with 50 epochs + logs
+        print(f"Beginning {neuron_num} hidden neuron test...\n")
         self.hidden_neurons = 20
-        log = open("hidden_neuron_results_20.txt", "w")
+        log = open(f"hidden_neuron_results_{neuron_num}.txt", "w")
+        log.write(f"{self.hidden_neurons} hidden neurons, {self.learning_rate} learning rate\n")
         log.write("Format is as follows {epoch_num, accuracy_train, accuracy_test}\n")
+
         for epoch_num in range(1, 51):
             sample_train, accuracy_train = self.think("mnist_train.csv", learn=True)
             sample_test, accuracy_test = self.think("mnist_test.csv")
             log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}')
             print(f'Epoch {epoch_num} of 50 completed')
         log.close()
-        print('...20 hidden neuron test complete.\n')
+        print(f'...{neuron_num} hidden neuron test complete.\n')
 
-        print("Beginning 50 hidden neuron test...\n")
-        self.hidden_neurons = 50
-        log = open("hidden_neuron_results_50.txt", "w")
-        log.write("Format is as follows {epoch_num, accuracy_train, accuracy_test}\n")
-        for epoch_num in range(1, 51):
-            sample_train, accuracy_train = self.think("mnist_train.csv", learn=True)
-            sample_test, accuracy_test = self.think("mnist_test.csv")
-            log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}')
-            print(f'Epoch {epoch_num} of 50 completed')
-        log.close()
-        print('...50 hidden neuron test complete.\n')
-
-        print("Beginning 100 hidden neuron test...\n")
+    def quarter_training_set_test(self):
+        print("Beginning quartered training set test...\n")
         self.hidden_neurons = 100
-        log = open("hidden_neuron_results_100.txt", "w")
+        self.learning_rate = .1
+        log = open("quarter_training_set_test_result.txt", "w")
+        log.write(f"{self.hidden_neurons} hidden neurons, {self.learning_rate} learning rate\n")
         log.write("Format is as follows {epoch_num, accuracy_train, accuracy_test}\n")
+
         for epoch_num in range(1, 51):
-            sample_train, accuracy_train = self.think("mnist_train.csv", learn=True)
+            sample_train, accuracy_train = self.think("quarter_mnist_train.csv", learn=True)
             sample_test, accuracy_test = self.think("mnist_test.csv")
             log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}')
             print(f'Epoch {epoch_num} of 50 completed')
         log.close()
-        print('...100 hidden neuron test complete.\n')
+        print('... quartered training set test complete.\n')
 
-        print('All tests successfully completed and results logged.')
+    def half_training_set_test(self):
+        print("Beginning halved training set test...\n")
+        self.hidden_neurons = 100
+        self.learning_rate = .1
+        log = open("half_training_set_test_result.txt", "w")
+        log.write(f"{self.hidden_neurons} hidden neurons, {self.learning_rate} learning rate\n")
+        log.write("Format is as follows {epoch_num, accuracy_train, accuracy_test}\n")
 
-
+        for epoch_num in range(1, 51):
+            sample_train, accuracy_train = self.think("half_mnist_train.csv", learn=True)
+            sample_test, accuracy_test = self.think("mnist_test.csv")
+            log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}')
+            print(f'Epoch {epoch_num} of 50 completed')
+        log.close()
+        print('... quartered training set test complete.\n')
 # NateBrain ends here
 
 
-nate = NateBrain()
-nate.hidden_neuron_test()
+# Hidden neuron test
+nate20 = NateBrain()
+nate20.hidden_neuron_test(20)
+nate50 = NateBrain()
+nate50.hidden_neuron_test(50)
+nate100 = NateBrain()
+nate100.hidden_neuron_test(100)
 
+# Quarter and Half size training set test
+quarter_nate = NateBrain()
+quarter_nate.quarter_training_set_test()
+half_nate = NateBrain()
+half_nate.half_training_set_test()
 
 # Notes
 
