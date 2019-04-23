@@ -55,7 +55,8 @@ class NateBrain(object):
 
     def train(self, csv_file_path):  # Trains based on passed data location
         with open(csv_file_path) as imgs:
-             for number_img in imgs:  # Here we are going to process each image piece by piece
+            counter = 0  # iteration counter for error
+            for number_img in imgs:  # Here we are going to process each image piece by piece
                 image = fromstring(number_img, dtype=int, sep=',')
                 output = self.label2output(image[0])  # image[0] is the data label, this is an array translation.
                 number_data = image  # bias neuron and image data
@@ -66,35 +67,23 @@ class NateBrain(object):
                 l1 = insert(l1, 0, 1)  # we need to add in the bias unit set to 1 at the beginning!
                 l2 = self.sigmoid(dot(l1, self.synapse2))
 
-
                 l2_err = output - l2
-                # print("l2 err value is ", mean(abs(l2_err)))
-                # print("Synapse 1 shape: ", self.synapse1.shape, "Synapse 2 shape: ", self.synapse2.shape)
-                # print("Layer 0 shape: ", l0.shape, "Layer 1 shape: ", l1.shape, "Layer 2 shape: ", l2.shape)
-                # print("Layer 1 err: ", l1_err.shape)
+
+                if (counter % 10000) == 0:  # Periodically output error average
+                    print("Mean Error: ", str(mean(abs(l2_err))))
 
                 l2_delta = self.sigmoid_deriv(l2) * l2_err  # this tells us the amount weight gotta change on l2
-                l1_err = dot(l2_delta, self.synapse1.T)  # backprop step that shows how much l1 contributed to error
-                l1_delta = self.sigmoid_deriv(l1[1:]) * l1_err  # this tells us the amount weight gotta change on l1
+                l1_err = dot(l2_delta, self.synapse2.T)  # backprop step that shows how much l1 contributed to error
+                l1_delta = self.sigmoid_deriv(l1) * l1_err  # this tells us the amount weight gotta change on l1
 
-                self.synapse2 += dot(l1.T, l2_delta)
-                self.synapse1 += dot(l0.T, l1_delta)
-                break
-
-
-
-             # NateBrain ends here
-
-
-# Testing Suite
+                self.synapse2 += l2_delta
+                self.synapse1 += l1_delta[:1]  # The bias should only go in one direction -> cut out 0th element here
+                counter += 1  # Keep track of iteration number for error printing
+# NateBrain ends here
 
 
 nate = NateBrain()
 nate.train("mnist_train.csv")
-# print("Synapse 1 data")
-# print(nate.synapse1)
-# print("Synapse 2 data")
-# print(nate.synapse2)
 
 # Notes
 
@@ -118,3 +107,8 @@ nate.train("mnist_train.csv")
 
 # MNIST Training Set
 # Each line is the label of the digit followed by the 28x28 (784) pixel image
+
+# Backpropagation Notes
+# Basically calculate the error starting at the back and working your way back through the network.
+#
+#
