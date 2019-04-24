@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from numpy import random, exp, fromstring, dot, array, mean, arange, zeros_like, insert
+from numpy import random, exp, fromstring, dot, array, mean, arange, zeros_like, insert, newaxis
 from time import time
 
 
@@ -28,7 +28,7 @@ print("I also like cats and talking about myself.\n")
 class NateBrain(object):
     seed = 12
     input_num = 784
-    hidden_neurons = 10
+    hidden_neurons = 100
     output_neurons = 10
     learning_rate = .1
 
@@ -39,8 +39,10 @@ class NateBrain(object):
         print("I am NateBrain, my number of output neurons is", self.output_neurons)
         print(f'I am NateBrain, my learning rate is {self.learning_rate}\n')
 
-    def __init__(self):
+    def __init__(self, h_neurons, l_rate):
         random.seed(self.seed)  # User can change the seed that a nate is made with
+        self.hidden_neurons = h_neurons
+        self.learning_rate = l_rate
         self.synapse1 = array(.1*random.random((self.input_num + 1, self.hidden_neurons)) - .05)   # See 'Notes'
         self.synapse2 = array(.1*random.random((self.hidden_neurons + 1, self.output_neurons)) - .05)  # for explanation
 
@@ -80,15 +82,15 @@ class NateBrain(object):
                 l1_delta = self.sigmoid_deriv(l1) * l1_err  # this tells us the amount weight gotta change on l1
 
                 if learn:  # If we were instructed to learn from the data rather than just evaluate it
-                    self.train(l1_delta, l2_delta)
+                    self.train(l1_delta, l2_delta, l0, l1)
 
                 counter += 1  # Keep track of iteration number for error printing
         imgs.close()  # Done with training examples
         return counter, accuracy  # Let the caller know how many samples were trained on and final accuracy
 
-    def train(self, l1_delta, l2_delta):
-        self.synapse2 += self.learning_rate * l2_delta
-        self.synapse1 += self.learning_rate * l1_delta[:1]  # The bias goes in 1 direction -> cut out 0th element here
+    def train(self, l1_delta, l2_delta, l0, l1):
+        self.synapse2 += self.learning_rate * dot(array(l1)[newaxis].T, array(l2_delta)[newaxis])
+        self.synapse1 += self.learning_rate * dot(array(l0)[newaxis].T, array(l1_delta[:1])[newaxis])  # The bias goes in 1 direction -> cut out 0th element here
 
     def think_epoch(self, csv_file_path, epoch_num, learn=False):
         samples = 0
@@ -112,10 +114,9 @@ class NateBrain(object):
         end = time()
         print(f'\nI examined a total of {examples} test sample(s) in{end - start:5.0f} seconds with a(n) {accuracy:5.2f} % accuracy.')
 
-    def hidden_neuron_test(self, neuron_num):  # Tests the effects of different numbers of hidden neurons with 50 epochs + logs
-        print(f"Beginning {neuron_num} hidden neuron test...\n")
-        self.hidden_neurons = 20
-        log = open(f"hidden_neuron_results_{neuron_num}.txt", "w")
+    def hidden_neuron_test(self):  # Tests the effects of different numbers of hidden neurons with 50 epochs + logs
+        print(f"Beginning {self.hidden_neurons} hidden neuron test...\n")
+        log = open(f"hidden_neuron_results_{self.hidden_neurons}.txt", "w")
         log.write(f"{self.hidden_neurons} hidden neurons, {self.learning_rate} learning rate\n")
         log.write("Format is as follows {epoch_num, accuracy_train, accuracy_test}\n")
 
@@ -125,12 +126,10 @@ class NateBrain(object):
             log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}\n')
             print(f'Epoch {epoch_num} of 50 completed')
         log.close()
-        print(f'...{neuron_num} hidden neuron test complete.\n')
+        print(f'...{self.hidden_neurons} hidden neuron test complete.\n')
 
     def quarter_training_set_test(self):  # Tests the neural net on 1/4th of the training set
         print("Beginning quartered training set test...\n")
-        self.hidden_neurons = 100
-        self.learning_rate = .1
         log = open("quarter_training_set_test_result.txt", "w")
         log.write(f"{self.hidden_neurons} hidden neurons, {self.learning_rate} learning rate\n")
         log.write("Format is as follows {epoch_num, accuracy_train, accuracy_test}\n")
@@ -145,8 +144,6 @@ class NateBrain(object):
 
     def half_training_set_test(self):  # Tests the neural net on 1/2th of the training set
         print("Beginning halved training set test...\n")
-        self.hidden_neurons = 100
-        self.learning_rate = .1
         log = open("half_training_set_test_result.txt", "w")
         log.write(f"{self.hidden_neurons} hidden neurons, {self.learning_rate} learning rate\n")
         log.write("Format is as follows {epoch_num, accuracy_train, accuracy_test}\n")
@@ -158,28 +155,31 @@ class NateBrain(object):
             print(f'Epoch {epoch_num} of 50 completed')
         log.close()
         print('... halved training set test complete.\n')
+
 # NateBrain ends here
 
 
-start = time()
+start_time = time()
 
 # Hidden neuron test
-nate20 = NateBrain()
-nate20.hidden_neuron_test(20)
-nate50 = NateBrain()
-nate50.hidden_neuron_test(50)
-nate100 = NateBrain()
-nate100.hidden_neuron_test(100)
+# nate20 = NateBrain(20, .1)
+# nate20.hidden_neuron_test()
+# nate50 = NateBrain(50, .1)
+# nate50.hidden_neuron_test(50)
+# nate100 = NateBrain(100, .1)
+# nate100.hidden_neuron_test(100)
 
 # Quarter and Half size training set test
-quarter_nate = NateBrain()
-quarter_nate.quarter_training_set_test()
-half_nate = NateBrain()
-half_nate.half_training_set_test()
+# quarter_nate = NateBrain(100, .1)
+# quarter_nate.quarter_training_set_test()
+# half_nate = NateBrain(100, .1)
+# half_nate.half_training_set_test()
 
-end = time()
+nate = NateBrain(100, .1)
+nate.demo_network(1)
+end_time = time()
 
-print(f"I completed all my tests in a total time of {end - start:5.0f} seconds.n ")
+print(f"I completed all my tests in a total time of {end_time - start_time:5.0f} seconds.n ")
 # Notes
 
 # Deriving the weights
