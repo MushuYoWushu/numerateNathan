@@ -179,7 +179,7 @@ half_nate.half_training_set_test()
 
 end = time()
 
-print(f"I completed all my tests in a total time of {end - start:5.0f} seconds.")
+print(f"I completed all my tests in a total time of {end - start:5.0f} seconds.n ")
 # Notes
 
 # Deriving the weights
