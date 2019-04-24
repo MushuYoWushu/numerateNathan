@@ -122,12 +122,12 @@ class NateBrain(object):
         for epoch_num in range(1, 51):
             sample_train, accuracy_train = self.think("mnist_train.csv", learn=True)
             sample_test, accuracy_test = self.think("mnist_test.csv")
-            log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}')
+            log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}\n')
             print(f'Epoch {epoch_num} of 50 completed')
         log.close()
         print(f'...{neuron_num} hidden neuron test complete.\n')
 
-    def quarter_training_set_test(self):
+    def quarter_training_set_test(self):  # Tests the neural net on 1/4th of the training set
         print("Beginning quartered training set test...\n")
         self.hidden_neurons = 100
         self.learning_rate = .1
@@ -138,12 +138,12 @@ class NateBrain(object):
         for epoch_num in range(1, 51):
             sample_train, accuracy_train = self.think("quarter_mnist_train.csv", learn=True)
             sample_test, accuracy_test = self.think("mnist_test.csv")
-            log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}')
+            log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}\n')
             print(f'Epoch {epoch_num} of 50 completed')
         log.close()
         print('... quartered training set test complete.\n')
 
-    def half_training_set_test(self):
+    def half_training_set_test(self):  # Tests the neural net on 1/2th of the training set
         print("Beginning halved training set test...\n")
         self.hidden_neurons = 100
         self.learning_rate = .1
@@ -154,10 +154,10 @@ class NateBrain(object):
         for epoch_num in range(1, 51):
             sample_train, accuracy_train = self.think("half_mnist_train.csv", learn=True)
             sample_test, accuracy_test = self.think("mnist_test.csv")
-            log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}')
+            log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}\n')
             print(f'Epoch {epoch_num} of 50 completed')
         log.close()
-        print('... quartered training set test complete.\n')
+        print('... halved training set test complete.\n')
 # NateBrain ends here
 
 
