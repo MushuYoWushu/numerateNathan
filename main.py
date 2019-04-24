@@ -110,7 +110,7 @@ class NateBrain(object):
         start = time()
         examples, accuracy = self.think("mnist_test.csv")
         end = time()
-        print(f'\nI examined a total of {examples} test sample(s) in{end - start:2.0f} seconds with a(n) {accuracy:5.2f} % accuracy.')
+        print(f'\nI examined a total of {examples} test sample(s) in{end - start:5.0f} seconds with a(n) {accuracy:5.2f} % accuracy.')
 
     def hidden_neuron_test(self, neuron_num):  # Tests the effects of different numbers of hidden neurons with 50 epochs + logs
         print(f"Beginning {neuron_num} hidden neuron test...\n")
@@ -161,6 +161,8 @@ class NateBrain(object):
 # NateBrain ends here
 
 
+start = time()
+
 # Hidden neuron test
 nate20 = NateBrain()
 nate20.hidden_neuron_test(20)
@@ -175,6 +177,9 @@ quarter_nate.quarter_training_set_test()
 half_nate = NateBrain()
 half_nate.half_training_set_test()
 
+end = time()
+
+print(f"I completed all my tests in a total time of {end - start:5.0f} seconds.")
 # Notes
 
 # Deriving the weights
