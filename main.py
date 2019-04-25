@@ -31,20 +31,25 @@ class NateBrain(object):
     hidden_neurons = 100
     output_neurons = 10
     learning_rate = .1
+    momentum = .7
 
     def talk(self):
         print("I am NateBrain, my seed number is", self.seed)
         print("I am NateBrain, my number of input neurons is", self.input_num)
         print("I am NateBrain, my number of hidden neurons is", self.hidden_neurons)
         print("I am NateBrain, my number of output neurons is", self.output_neurons)
-        print(f'I am NateBrain, my learning rate is {self.learning_rate}\n')
+        print(f'I am NateBrain, my learning rate is {self.learning_rate}')
+        print(f'I am NateBrain, my momentum is {self.momentum}\n')
 
-    def __init__(self, h_neurons, l_rate):
+    def __init__(self, h_neurons, l_rate, mom_rate):
         random.seed(self.seed)  # User can change the seed that a nate is made with
         self.hidden_neurons = h_neurons
         self.learning_rate = l_rate
+        self.momentum = mom_rate
         self.synapse1 = array(.1*random.random((self.input_num + 1, self.hidden_neurons)) - .05)   # See 'Notes'
         self.synapse2 = array(.1*random.random((self.hidden_neurons + 1, self.output_neurons)) - .05)  # for explanation
+        self.prev_syn1 = zeros_like(random.random((self.input_num + 1, self.hidden_neurons)))  # dummy to store
+        self.prev_syn2 = zeros_like(random.random((self.hidden_neurons + 1, self.output_neurons)))  # last synapse data
 
     def sigmoid(self, x):  # We do not change the class contents so the IDE may suggest making static
         return 1 / (1 + exp(-x))
@@ -89,6 +94,8 @@ class NateBrain(object):
         return counter, accuracy  # Let the caller know how many samples were trained on and final accuracy
 
     def train(self, l1_delta, l2_delta, l0, l1):
+        self.prev_syn2 = self.synapse2
+        self.prev_syn1 = self.synapse1
         self.synapse2 += self.learning_rate * dot(array(l1)[newaxis].T, array(l2_delta)[newaxis])
         self.synapse1 += self.learning_rate * dot(array(l0)[newaxis].T, array(l1_delta[:1])[newaxis])  # The bias goes in 1 direction -> cut out 0th element here
 
@@ -162,21 +169,21 @@ class NateBrain(object):
 start_time = time()
 
 # Hidden neuron test
-nate20 = NateBrain(20, .1)
-nate20.hidden_neuron_test()
-nate50 = NateBrain(50, .1)
-nate50.hidden_neuron_test()
-nate100 = NateBrain(100, .1)
-nate100.hidden_neuron_test()
+# nate20 = NateBrain(20, .1)
+# nate20.hidden_neuron_test()
+# nate50 = NateBrain(50, .1)
+# nate50.hidden_neuron_test()
+# nate100 = NateBrain(100, .1)
+# nate100.hidden_neuron_test()
 
 # Quarter and Half size training set test
-quarter_nate = NateBrain(100, .1)
-quarter_nate.quarter_training_set_test()
-half_nate = NateBrain(100, .1)
-half_nate.half_training_set_test()
+# quarter_nate = NateBrain(100, .1)
+# quarter_nate.quarter_training_set_test()
+# half_nate = NateBrain(100, .1)
+# half_nate.half_training_set_test()
 
-# nate = NateBrain(100, .1)
-# nate.demo_network(1)
+nate = NateBrain(100, .1, .7)
+nate.demo_network(1)
 end_time = time()
 
 print(f"I completed all my tests in a total time of {end_time - start_time:5.0f} seconds.n ")
