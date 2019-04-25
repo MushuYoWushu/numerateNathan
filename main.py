@@ -162,21 +162,21 @@ class NateBrain(object):
 start_time = time()
 
 # Hidden neuron test
-# nate20 = NateBrain(20, .1)
-# nate20.hidden_neuron_test()
-# nate50 = NateBrain(50, .1)
-# nate50.hidden_neuron_test(50)
-# nate100 = NateBrain(100, .1)
-# nate100.hidden_neuron_test(100)
+nate20 = NateBrain(20, .1)
+nate20.hidden_neuron_test()
+nate50 = NateBrain(50, .1)
+nate50.hidden_neuron_test()
+nate100 = NateBrain(100, .1)
+nate100.hidden_neuron_test()
 
 # Quarter and Half size training set test
-# quarter_nate = NateBrain(100, .1)
-# quarter_nate.quarter_training_set_test()
-# half_nate = NateBrain(100, .1)
-# half_nate.half_training_set_test()
+quarter_nate = NateBrain(100, .1)
+quarter_nate.quarter_training_set_test()
+half_nate = NateBrain(100, .1)
+half_nate.half_training_set_test()
 
-nate = NateBrain(100, .1)
-nate.demo_network(1)
+# nate = NateBrain(100, .1)
+# nate.demo_network(1)
 end_time = time()
 
 print(f"I completed all my tests in a total time of {end_time - start_time:5.0f} seconds.n ")
