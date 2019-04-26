@@ -116,7 +116,7 @@ class NateBrain(object):
         start = time()
         examples, accuracy = self.think_epoch("mnist_train.csv", epochs, learn=True)
         end = time()
-        print(f'\nI studied a total of {examples} sample(s) in {end - start:2.0f} seconds through {epochs}'
+        print(f'\nI studied a total of {examples} sample(s) in {end - start:5.0f} seconds through {epochs}'
               f' epoch(s) with a(n) {accuracy:5.2f} % accuracy.')
         print(f'\nI will now take the test set without learning.\n')
         start = time()
@@ -139,9 +139,9 @@ class NateBrain(object):
             log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}\n')
             print(f'Epoch {epoch_num} of 50 completed')
         end_t = time()
-        log.write(f'Total execution time is {end_t - start_t} seconds\n')
+        log.write(f'Total execution time is {end_t - start_t:5.0f} seconds\n')
         log.close()
-        print(f'...{self.hidden_neurons} hidden neuron test complete in {end_t - start_t} seconds.\n')
+        print(f'...{self.hidden_neurons} hidden neuron test complete in {end_t - start_t:5.0f} seconds.\n')
 
     def quarter_training_set_test(self):  # Tests the neural net on 1/4th of the training set
         print("Beginning quartered training set test...\n")
@@ -157,9 +157,9 @@ class NateBrain(object):
             log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}\n')
             print(f'Epoch {epoch_num} of 50 completed')
         end_t = time()
-        log.write(f'Total execution time is {end_t - start_t} seconds\n')
+        log.write(f'Total execution time is {end_t - start_t:5.0f} seconds\n')
         log.close()
-        print(f'... quartered training set test complete in {end_t - start_t} seconds.\n')
+        print(f'... quartered training set test complete in {end_t - start_t:5.0f} seconds.\n')
 
     def half_training_set_test(self):  # Tests the neural net on 1/2th of the training set
         print("Beginning halved training set test...\n")
@@ -175,9 +175,9 @@ class NateBrain(object):
             log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}\n')
             print(f'Epoch {epoch_num} of 50 completed')
         end_t = time()
-        log.write(f'Total execution time is {end_t - start_t} seconds\n')
+        log.write(f'Total execution time is {end_t - start_t:5.0f} seconds\n')
         log.close()
-        print(f'... halved training set test complete in {end_t - start_t} seconds.\n')
+        print(f'... halved training set test complete in {end_t - start_t:5.0f} seconds.\n')
 
 # NateBrain ends here
 
@@ -185,21 +185,21 @@ class NateBrain(object):
 start_time = time()
 
 # Hidden neuron test
-# nate20 = NateBrain(20, .1, .7)
-# nate20.hidden_neuron_test()
-# nate50 = NateBrain(50, .1, .7)
-# nate50.hidden_neuron_test()
-# nate100 = NateBrain(100, .1, .7)
-# nate100.hidden_neuron_test()
+nate20 = NateBrain(20, .1, .7)
+nate20.hidden_neuron_test()
+nate50 = NateBrain(50, .1, .7)
+nate50.hidden_neuron_test()
+nate100 = NateBrain(100, .1, .7)
+nate100.hidden_neuron_test()
 
 # Quarter and Half size training set test
-# quarter_nate = NateBrain(100, .1, .7)
-# quarter_nate.quarter_training_set_test()
-# half_nate = NateBrain(100, .1, .7)
-# half_nate.half_training_set_test()
+quarter_nate = NateBrain(100, .1, .7)
+quarter_nate.quarter_training_set_test()
+half_nate = NateBrain(100, .1, .7)
+half_nate.half_training_set_test()
 
-nate = NateBrain(100, .1, .7)
-nate.demo_network(1)
+# nate = NateBrain(100, .1, .7)
+# nate.demo_network(1)
 end_time = time()
 
 print(f"I completed all my tests in a total time of {end_time - start_time:5.0f} seconds.")
