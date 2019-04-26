@@ -127,8 +127,10 @@ class NateBrain(object):
 
     def hidden_neuron_test(self):  # Tests the effects of different numbers of hidden neurons with 50 epochs + logs
         print(f"Beginning {self.hidden_neurons} hidden neuron test...\n")
+        start_t = time()
         log = open(f"hidden_neuron_results_{self.hidden_neurons}.txt", "w")
-        log.write(f"{self.hidden_neurons} hidden neurons, {self.learning_rate} learning rate\n")
+        log.write(f"{self.hidden_neurons} hidden neurons, {self.learning_rate} learning rate,"
+                  f" {self.momentum} momentum rate.\n")
         log.write("Format is as follows {epoch_num, accuracy_train, accuracy_test}\n")
 
         for epoch_num in range(1, 51):
@@ -136,13 +138,17 @@ class NateBrain(object):
             sample_test, accuracy_test = self.think("mnist_test.csv")
             log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}\n')
             print(f'Epoch {epoch_num} of 50 completed')
+        end_t = time()
+        log.write(f'Total execution time is {end_t - start_t} seconds\n')
         log.close()
-        print(f'...{self.hidden_neurons} hidden neuron test complete.\n')
+        print(f'...{self.hidden_neurons} hidden neuron test complete in {end_t - start_t} seconds.\n')
 
     def quarter_training_set_test(self):  # Tests the neural net on 1/4th of the training set
         print("Beginning quartered training set test...\n")
+        start_t = time()
         log = open("quarter_training_set_test_result.txt", "w")
-        log.write(f"{self.hidden_neurons} hidden neurons, {self.learning_rate} learning rate\n")
+        log.write(f"{self.hidden_neurons} hidden neurons, {self.learning_rate} learning rate,"
+                  f" {self.momentum} momentum rate.\n")
         log.write("Format is as follows {epoch_num, accuracy_train, accuracy_test}\n")
 
         for epoch_num in range(1, 51):
@@ -150,13 +156,17 @@ class NateBrain(object):
             sample_test, accuracy_test = self.think("mnist_test.csv")
             log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}\n')
             print(f'Epoch {epoch_num} of 50 completed')
+        end_t = time()
+        log.write(f'Total execution time is {end_t - start_t} seconds\n')
         log.close()
-        print('... quartered training set test complete.\n')
+        print(f'... quartered training set test complete in {end_t - start_t} seconds.\n')
 
     def half_training_set_test(self):  # Tests the neural net on 1/2th of the training set
         print("Beginning halved training set test...\n")
+        start_t = time()
         log = open("half_training_set_test_result.txt", "w")
-        log.write(f"{self.hidden_neurons} hidden neurons, {self.learning_rate} learning rate\n")
+        log.write(f"{self.hidden_neurons} hidden neurons, {self.learning_rate} learning rate,"
+                  f" {self.momentum} momentum rate.\n")
         log.write("Format is as follows {epoch_num, accuracy_train, accuracy_test}\n")
 
         for epoch_num in range(1, 51):
@@ -164,8 +174,10 @@ class NateBrain(object):
             sample_test, accuracy_test = self.think("mnist_test.csv")
             log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}\n')
             print(f'Epoch {epoch_num} of 50 completed')
+        end_t = time()
+        log.write(f'Total execution time is {end_t - start_t} seconds\n')
         log.close()
-        print('... halved training set test complete.\n')
+        print(f'... halved training set test complete in {end_t - start_t} seconds.\n')
 
 # NateBrain ends here
 
