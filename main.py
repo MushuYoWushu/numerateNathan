@@ -190,7 +190,7 @@ nate = NateBrain(100, .1, .7)
 nate.demo_network(1)
 end_time = time()
 
-print(f"I completed all my tests in a total time of {end_time - start_time:5.0f} seconds.n ")
+print(f"I completed all my tests in a total time of {end_time - start_time:5.0f} seconds.")
 # Notes
 
 # Deriving the weights
