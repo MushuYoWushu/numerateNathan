@@ -26,21 +26,21 @@ print("I also like cats and talking about myself.\n")
 start_time = time()
 
 # Hidden neuron test
-nate20 = NateBrain(20, .1, .7)
-hidden_neuron_test(nate20)
-nate50 = NateBrain(50, .1, .7)
-hidden_neuron_test(nate50)
-nate100 = NateBrain(100, .1, .7)
-hidden_neuron_test(nate100)
+# nate20 = NateBrain(20, .1, .7)
+# hidden_neuron_test(nate20)
+# nate50 = NateBrain(50, .1, .7)
+# hidden_neuron_test(nate50)
+# nate100 = NateBrain(100, .1, .7)
+# hidden_neuron_test(nate100)
 
 # Quarter and Half size training set test
-quarter_nate = NateBrain(100, .1, .7)
-quarter_training_set_test(quarter_nate)
-half_nate = NateBrain(100, .1, .7)
-half_training_set_test(half_nate)
+# quarter_nate = NateBrain(100, .1, .7)
+# quarter_training_set_test(quarter_nate)
+# half_nate = NateBrain(100, .1, .7)
+# half_training_set_test(half_nate)
 
-# nate = NateBrain(100, .1, .7)
-# demo_network(nate, 1)
+nate = NateBrain(100, .1, .7)
+demo_network(nate, 1)
 end_time = time()
 
 print(f"I completed all my tests in a total time of {end_time - start_time:5.0f} seconds.")
