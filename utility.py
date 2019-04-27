@@ -23,12 +23,13 @@ def print_results_matrix(matrix, total_acc):
 
     table1 = ttable.Texttable().set_cols_align(["c", "c", "c", "c", "c", "c", "c", "c", "c", "c", "c", "c"])\
                                .set_cols_valign(["c", "c", "c", "c", "c", "c", "c", "c", "c", "c", "c", "c"])\
-                               .set_cols_width(["6", "6", "6", "6", "6", "6", "6", "6", "6", "6", "11", "9"])\
+                               .set_cols_width(["9", "9", "9", "9", "9", "9", "9", "9", "9", "9", "14", "12"])\
                                .add_row(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Predicted x Actual", "Accuracy"])\
                                .add_rows(matrix, False)\
                                .add_row(["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "Total Avg Acc", total_acc])
 
     print(table1.draw() + "\n")
+    return table1
 
 
 def demo_network(nate: NateBrain, epochs):  # Demo's the networks capabilities
@@ -62,6 +63,8 @@ def hidden_neuron_test(nate: NateBrain):  # Tests effect of different numbers of
               f" {nate.momentum} momentum rate.\n")
     log.write("Format is as follows {epoch_num, accuracy_train, accuracy_test}\n")
 
+    accuracy_test = 0.0  # These are here to silence warnings about potential non-assignment
+    results_test = []
     for epoch_num in range(1, 51):
         sample_train, accuracy_train, results_train = nate.think("mnist_train.csv", learn=True)
         sample_test, accuracy_test, results_test = nate.think("mnist_test.csv")
@@ -69,6 +72,8 @@ def hidden_neuron_test(nate: NateBrain):  # Tests effect of different numbers of
         print(f'Epoch {epoch_num} of 50 completed')
     end_t = time()
     log.write(f'Total execution time is {end_t - start_t:5.0f} seconds\n')
+    log.write(f'Confusion Matrix for tests\n')
+    log.write(print_results_matrix(results_test, accuracy_test))
     log.close()
     print(f'...{nate.hidden_neurons} hidden neuron test complete in {end_t - start_t:5.0f} seconds.\n')
 
@@ -81,6 +86,8 @@ def quarter_training_set_test(nate: NateBrain):  # Tests the neural net on 1/4th
               f" {nate.momentum} momentum rate.\n")
     log.write("Format is as follows {epoch_num, accuracy_train, accuracy_test}\n")
 
+    accuracy_test = 0.0  # These are here to silence warnings about potential non-assignment
+    results_test = []
     for epoch_num in range(1, 51):
         sample_train, accuracy_train, results_train = nate.think("quarter_mnist_train.csv", learn=True)
         sample_test, accuracy_test, results_test = nate.think("mnist_test.csv")
@@ -88,6 +95,8 @@ def quarter_training_set_test(nate: NateBrain):  # Tests the neural net on 1/4th
         print(f'Epoch {epoch_num} of 50 completed')
     end_t = time()
     log.write(f'Total execution time is {end_t - start_t:5.0f} seconds\n')
+    log.write(f'Confusion Matrix for tests\n')
+    log.write(print_results_matrix(results_test, accuracy_test))
     log.close()
     print(f'... quartered training set test complete in {end_t - start_t:5.0f} seconds.\n')
 
@@ -100,6 +109,8 @@ def half_training_set_test(nate: NateBrain):  # Tests the neural net on 1/2th of
               f" {nate.momentum} momentum rate.\n")
     log.write("Format is as follows {epoch_num, accuracy_train, accuracy_test}\n")
 
+    accuracy_test = 0.0  # These are here to silence warnings about potential non-assignment
+    results_test = []
     for epoch_num in range(1, 51):
         sample_train, accuracy_train, results_train = nate.think("half_mnist_train.csv", learn=True)
         sample_test, accuracy_test, results_test = nate.think("mnist_test.csv")
@@ -107,5 +118,7 @@ def half_training_set_test(nate: NateBrain):  # Tests the neural net on 1/2th of
         print(f'Epoch {epoch_num} of 50 completed')
     end_t = time()
     log.write(f'Total execution time is {end_t - start_t:5.0f} seconds\n')
+    log.write(f'Confusion Matrix for tests\n')
+    log.write(print_results_matrix(results_test, accuracy_test))
     log.close()
     print(f'... halved training set test complete in {end_t - start_t:5.0f} seconds.\n')
