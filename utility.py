@@ -39,9 +39,9 @@ def demo_network(nate: NateBrain, epochs):  # Demo's the networks capabilities
     start = time()
     if epochs == 0:  # We will run at least one epoch
         epochs = 1
-    examples, accuracy, results = nate.think("mnist_train.csv", learn=True)
+    examples, accuracy, results = nate.think("mnist/mnist_train.csv", learn=True)
     for _ in range(1, epochs):  # this guarantees that it will run at least once but no more than 'epochs'
-        examples, accuracy, results = nate.think("mnist_train.csv", learn=True)
+        examples, accuracy, results = nate.think("mnist/mnist_train.csv", learn=True)
     end = time()
     print(f'\nI studied a total of {examples} sample(s) in {end - start:5.0f} seconds through {epochs}'
           f' epoch(s) with a(n) {accuracy:5.2f} % accuracy.')
@@ -49,7 +49,7 @@ def demo_network(nate: NateBrain, epochs):  # Demo's the networks capabilities
 
     print(f'\nI will now take the test set without learning.\n')
     start = time()
-    examples, accuracy, results = nate.think("mnist_test.csv")  # ...But we do here
+    examples, accuracy, results = nate.think("mnist/mnist_test.csv")  # ...But we do here
     end = time()
     print(f'\nI examined a total of {examples} test sample(s) in{end - start:5.0f} seconds with a(n)'
           f' {accuracy:5.2f} % accuracy.\n')
@@ -59,7 +59,7 @@ def demo_network(nate: NateBrain, epochs):  # Demo's the networks capabilities
 def hidden_neuron_test(nate: NateBrain):  # Tests effect of different numbers of hidden neurons with 50 epochs + logs
     print(f"Beginning {nate.hidden_neurons} hidden neuron test...\n")
     start_t = time()
-    log = open(f"hidden_neuron_results_{nate.hidden_neurons}.txt", "w")
+    log = open(f"test_analysis/hidden_neuron_results_{nate.hidden_neurons}.txt", "w")
     log.write(f"{nate.hidden_neurons} hidden neurons, {nate.learning_rate} learning rate,"
               f" {nate.momentum} momentum rate.\n")
     log.write("Format is as follows {epoch_num, accuracy_train, accuracy_test}\n")
@@ -67,8 +67,8 @@ def hidden_neuron_test(nate: NateBrain):  # Tests effect of different numbers of
     accuracy_test = 0.0  # These are here to silence warnings about potential non-assignment
     results_test = []
     for epoch_num in range(1, 51):
-        sample_train, accuracy_train, results_train = nate.think("mnist_train.csv", learn=True)
-        sample_test, accuracy_test, results_test = nate.think("mnist_test.csv")
+        sample_train, accuracy_train, results_train = nate.think("mnist/mnist_train.csv", learn=True)
+        sample_test, accuracy_test, results_test = nate.think("mnist/mnist_test.csv")
         log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}\n')
         print(f'Epoch {epoch_num} of 50 completed')
     end_t = time()
@@ -82,7 +82,7 @@ def hidden_neuron_test(nate: NateBrain):  # Tests effect of different numbers of
 def quarter_training_set_test(nate: NateBrain):  # Tests the neural net on 1/4th of the training set
     print("Beginning quartered training set test...\n")
     start_t = time()
-    log = open("quarter_training_set_test_result.txt", "w")
+    log = open("test_analysis/quarter_training_set_test_result.txt", "w")
     log.write(f"{nate.hidden_neurons} hidden neurons, {nate.learning_rate} learning rate,"
               f" {nate.momentum} momentum rate.\n")
     log.write("Format is as follows {epoch_num, accuracy_train, accuracy_test}\n")
@@ -90,8 +90,8 @@ def quarter_training_set_test(nate: NateBrain):  # Tests the neural net on 1/4th
     accuracy_test = 0.0  # These are here to silence warnings about potential non-assignment
     results_test = []
     for epoch_num in range(1, 51):
-        sample_train, accuracy_train, results_train = nate.think("quarter_mnist_train.csv", learn=True)
-        sample_test, accuracy_test, results_test = nate.think("mnist_test.csv")
+        sample_train, accuracy_train, results_train = nate.think("mnist/quarter_mnist_train.csv", learn=True)
+        sample_test, accuracy_test, results_test = nate.think("mnist/mnist_test.csv")
         log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}\n')
         print(f'Epoch {epoch_num} of 50 completed')
     end_t = time()
@@ -105,7 +105,7 @@ def quarter_training_set_test(nate: NateBrain):  # Tests the neural net on 1/4th
 def half_training_set_test(nate: NateBrain):  # Tests the neural net on 1/2th of the training set
     print("Beginning halved training set test...\n")
     start_t = time()
-    log = open("half_training_set_test_result.txt", "w")
+    log = open("test_analysis/half_training_set_test_result.txt", "w")
     log.write(f"{nate.hidden_neurons} hidden neurons, {nate.learning_rate} learning rate,"
               f" {nate.momentum} momentum rate.\n")
     log.write("Format is as follows {epoch_num, accuracy_train, accuracy_test}\n")
@@ -113,8 +113,8 @@ def half_training_set_test(nate: NateBrain):  # Tests the neural net on 1/2th of
     accuracy_test = 0.0  # These are here to silence warnings about potential non-assignment
     results_test = []
     for epoch_num in range(1, 51):
-        sample_train, accuracy_train, results_train = nate.think("half_mnist_train.csv", learn=True)
-        sample_test, accuracy_test, results_test = nate.think("mnist_test.csv")
+        sample_train, accuracy_train, results_train = nate.think("mnist/half_mnist_train.csv", learn=True)
+        sample_test, accuracy_test, results_test = nate.think("mnist/mnist_test.csv")
         log.write(f'{epoch_num}, {accuracy_train:5.2f}, {accuracy_test:5.2f}\n')
         print(f'Epoch {epoch_num} of 50 completed')
     end_t = time()
