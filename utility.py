@@ -28,8 +28,9 @@ def print_results_matrix(matrix, total_acc):
                                .add_rows(matrix, False)\
                                .add_row(["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "Total Avg Acc", total_acc])
 
-    print(table1.draw() + "\n")
-    return table1
+    table_str = table1.draw() + "\n"
+    print(table_str)
+    return table_str
 
 
 def demo_network(nate: NateBrain, epochs):  # Demo's the networks capabilities
