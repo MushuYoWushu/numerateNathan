@@ -18,3 +18,11 @@
 
 # numerateNathan
 A questionably numerate number reading toy AI. Currently in testing.
+
+This project is dependant on having the mnist training and testing database available in directory to run.
+Additionally the quartered and halved tests require that corresponding files of the correct (1/4 and 1/2) proportion
+be in directory.
+
+This project additionally requires formatting resources from texttable available to your Python to run. Tested on 3.7.
+
+https://pypi.org/project/texttable/
