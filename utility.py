@@ -1,5 +1,5 @@
 # numerateNathan, a toy number counting neural net
-# Copyright (C) 2019  Ian L. Gore
+# Copyright (C) 2019  Ian Gore
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

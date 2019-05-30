@@ -1,7 +1,25 @@
+# numerateNathan
+A decently numerate number reading toy AI. Currently in testing.
+
+This project is dependant on having the mnist training and testing database available in directory to run.
+Additionally the quartered and halved tests require that corresponding files of the correct (1/4 and 1/2) proportion
+be in directory. Please see the below link for the dataset downloads
+
+http://yann.lecun.com/exdb/mnist/
+
+This project additionally requires formatting resources from texttable available to your Python to run. Tested on 3.7.
+
+https://pypi.org/project/texttable/
+
+## Purpose
+
+This simple neural net is released in the hopes that it will help other students of machine learning advance their own
+understanding of the subject.
+
 # License
 
  numerateNathan, a toy number counting neural net
- Copyright (C) 2019  Ian L. Gore
+ Copyright (C) 2019  Ian Gore
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -15,14 +33,3 @@
 
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-# numerateNathan
-A questionably numerate number reading toy AI. Currently in testing.
-
-This project is dependant on having the mnist training and testing database available in directory to run.
-Additionally the quartered and halved tests require that corresponding files of the correct (1/4 and 1/2) proportion
-be in directory.
-
-This project additionally requires formatting resources from texttable available to your Python to run. Tested on 3.7.
-
-https://pypi.org/project/texttable/
