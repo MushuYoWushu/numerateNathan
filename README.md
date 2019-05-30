@@ -1,5 +1,5 @@
 # numerateNathan
-A decently numerate number reading toy AI. Currently in testing.
+A decently numerate number reading toy AI.
 
 This project is dependant on having the mnist training and testing database available in directory to run.
 Additionally the quartered and halved tests require that corresponding files of the correct (1/4 and 1/2) proportion
